@@ -13,7 +13,7 @@ Multiple approaches were used to tackle this problem. These are:
 ## Models and their files
   - BERT-CLS Dual Encoder : Bert-cls-dual-encoder.ipynb
   - TF-IDF/LSTM and Logistic Regression:logReg_and_BLSTM.ipynb
-  - TF-IDF/FNN : 
+  - TF-IDF/FNN : TF-IDF-1.ipynb
   - TF-IDF/CNN : TF-IDF-CNN.ipynb
   - LLM-as-a-judge : LLM_as_a_judge.ipynb
   - Bradley Terry: Reinforcement_Model.ipynb
