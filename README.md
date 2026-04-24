@@ -1,37 +1,36 @@
-# BERT-CLS Dual Encoder — Chatbot Preference Classification
+# laughing-octo-disco
+An AI model that predicts which response users will prefer in a head-to-head battle between chatbots powered by different large language models. This allows the model to learn task-specific patterns while retaining the general language knowledge it gained during pre-training.
 
-A pairwise preference classifier built on frozen BERT embeddings, trained on the LMSys Chatbot Arena dataset to predict which of two AI-generated responses a human would prefer.
+The dataset comprises conversations from the chatbot arena, a site where different LLMs generate answers to user prompts.
+Dataset: https://www.kaggle.com/competitions/llm-classification-finetuning/data
 
-## Overview
+Multiple approaches were used to tackle this problem. These are:
+  - BERT-CLS Dual Encoder — Chatbot Preference Classification
+  - TF-IDF coupled with LSTM, FNN, CNN, and Logistic Regression
+  - LLM-as-a-judge
+  - Reinforcement Learning with Bradley Terry and Roberta Reward Models
 
-This model encodes each (prompt, response) pair independently through BERT-base-uncased, extracts the [CLS] token embedding from the final hidden layer, and concatenates both 768-dimensional vectors into a single 1,536-dimensional representation. A lightweight feedforward classifier is trained on top of these frozen embeddings to predict one of three outcomes: response_a preferred, response_b preferred, or tie.
-
-BERT's weights are never updated — only the classifier head is trained (~330K parameters), making this approach fast, memory-efficient, and a strong baseline for the pairwise preference task.
-
-## Model Architecture
-
-## Dataset
-
-- **Source:** LMSys Chatbot Arena
-- **Size:** 15,000 samples (truncated from full dataset due to memory constraints)
-- **Split:** 70% train / 30% validation, stratified by class
-- **Classes:** `0` = model_a wins, `1` = model_b wins, `2` = tie
-
-## Results
-
-| Metric | Value |
-|---|---|
-| Final validation accuracy | 43.58% |
-| Trainable parameters | ~330K |
-| Base model | bert-base-uncased |
+## Models and their files
+  - BERT-CLS Dual Encoder : Bert-cls-dual-encoder.ipynb
+  - TF-IDF/LSTM and Logistic Regression:logReg_and_BLSTM.ipynb
+  - TF-IDF/FNN : 
+  - TF-IDF/CNN : TF-IDF-CNN.ipynb
+  - LLM-as-a-judge : LLM_as_a_judge.ipynb
+  - Bradley Terry: Reinforcement_Model.ipynb
+  - roBERTa: RLHF.ipynb
 
 ## Requirements
 
 ```bash
-pip install torch transformers scikit-learn pandas bitsandbytes
+pip install torch transformers scikit-learn pandas bitsandbytes datasets accelerate sentencepiece
+pip install sentencepiece
+pip install scikit-learn
+pip install tensorflow
+pip install torch
+pip install groq
 ```
 
-## Usage
+## Usage o
 
 1. Mount your dataset to `/content/drive/MyDrive/Colab Notebooks/train.csv`
 2. Run cells in order — tokenization → embedding extraction → classifier training
@@ -39,4 +38,4 @@ pip install torch transformers scikit-learn pandas bitsandbytes
 
 ## Hardware
 
-Developed and tested on Google Colab with an NVIDIA T4 GPU (16 GB VRAM). CPU inference is not recommended due to the cost of BERT's 12-layer forward pass across 15,000 samples.
+Developed and tested on Google Colab with an NVIDIA T4 GPU (16 GB VRAM). CPU inference is not recommended due to the high computational cost of samples above 15,000.
